@@ -28,6 +28,8 @@ public class snake extends JPanel implements ActionListener ,KeyListener {
      int vantocx;
      int vantocy;
      boolean gameOver=false;
+     public boolean xuyenTuong = false;
+     public int loaiDoHoa = 0;
      
      
 
@@ -191,10 +193,26 @@ public class snake extends JPanel implements ActionListener ,KeyListener {
     }
 
     
-    if (snakeHead.x * tileSize < 0 || snakeHead.x * tileSize >= boardWight ||
-        snakeHead.y * tileSize < 0 || snakeHead.y * tileSize >= boardHeight) {
+    
+if (snakeHead.x * tileSize < 0 || snakeHead.x * tileSize >= boardWight ||
+    snakeHead.y * tileSize < 0 || snakeHead.y * tileSize >= boardHeight) {
+    
+    // Nếu chọn chế độ xuyên tường thì bò qua mép này xuất hiện mép kia
+    if (xuyenTuong) {
+        if (snakeHead.x < 0) {
+            snakeHead.x = (boardWight / tileSize) - 1;
+        } else if (snakeHead.x >= boardWight / tileSize) {
+            snakeHead.x = 0;
+        } else if (snakeHead.y < 0) {
+            snakeHead.y = (boardHeight / tileSize) - 1;
+        } else if (snakeHead.y >= boardHeight / tileSize) {
+            snakeHead.y = 0;
+        }
+    } else {
+      
         gameOver = true;
     }
+}
 }
     
     @Override
