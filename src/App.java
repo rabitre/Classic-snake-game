@@ -59,7 +59,7 @@ public class App {
         JLabel graphicsLabel = new JLabel("Đồ họa: ");
         graphicsLabel.setFont(new Font("Arial", Font.PLAIN, 20));
         graphicsLabel.setForeground(Color.WHITE);
-        String[] graphicsOptions = {"Mặc định", "Tùy chỉnh"};
+        String[] graphicsOptions = {"Mặc định", "Chế độ 1", "Chế độ 2", "Chế độ 3"};
         JComboBox<String> graphicsBox = new JComboBox<>(graphicsOptions);
         graphicsBox.setFont(new Font("Arial", Font.PLAIN, 18));
         graphicsPanel.add(graphicsLabel);
@@ -98,17 +98,17 @@ public class App {
                 // Tạo đối tượng Game
                 snake snakeGame = new snake(boardWidth, boardHeight);
 
-                // 1. Áp dụng Tốc độ (Truy cập trực tiếp vào gameLoop của snake)
+                // 1.  Tốc độ 
                 int speedIndex = speedBox.getSelectedIndex();
                 if (speedIndex == 0) {
-                    snakeGame.gameLoop.setDelay(150); // Chậm
+                    snakeGame.gameLoop.setDelay(150); 
                 } else if (speedIndex == 1) {
-                    snakeGame.gameLoop.setDelay(100); // Vừa
+                    snakeGame.gameLoop.setDelay(100); 
                 } else if (speedIndex == 2) {
-                    snakeGame.gameLoop.setDelay(50);  // Nhanh
+                    snakeGame.gameLoop.setDelay(50);  
                 }
 
-                // 2. Áp dụng Chế độ xuyên tường (cần thêm cờ xuyenTuong bên class snake)
+                //  Chế độ xuyên tường 
                 if (modeBox.getSelectedIndex() == 1) {
                     snakeGame.xuyenTuong = true; 
                 }
