@@ -57,6 +57,7 @@ public class snake extends JPanel implements ActionListener ,KeyListener {
         draw(g);
     }
     public void draw(Graphics g){
+        
         /*
         grid
         (x1,y1,x2,y2)
@@ -70,16 +71,43 @@ public class snake extends JPanel implements ActionListener ,KeyListener {
         //food
         //(x,y,weight,height)
         g.setColor(Color.red);
-        g.fillRect(food.x*tileSize,food.y*tileSize,tileSize,tileSize);
-        //snake
-        g.setColor(Color.green);
-        g.fillRect(snakeHead.x*tileSize,snakeHead.y*tileSize,tileSize,tileSize);
+    g.fillRect(food.x * tileSize, food.y * tileSize, tileSize, tileSize);
 
-        //than
-        for (int i=0;i<snakeBody.size();i++){
-        Tile snakePart=snakeBody.get(i);
-        g.fillRect(snakePart.x*tileSize,snakePart.y*tileSize,tileSize,tileSize);
-        }
+    // 2. Vẽ thân rắn (Vẽ thân trước)
+    for (int i = 0; i < snakeBody.size(); i++) {
+        Tile snakePart = snakeBody.get(i);
+        float hue = (0.55f + (float) (i + 1) * 0.015f) % 1.0f;
+        g.setColor(Color.getHSBColor(hue, 0.85f, 1.0f));
+        g.fillRect(snakePart.x * tileSize, snakePart.y * tileSize, tileSize, tileSize);
+    }
+
+    // Vẽ đầu rắn
+    g.setColor(Color.getHSBColor(0.55f, 0.85f, 1.0f));
+    g.fillRect(snakeHead.x * tileSize, snakeHead.y * tileSize, tileSize, tileSize);
+
+    //Vẽ 2 mắt màu đen lên trên đầu rắn
+    g.setColor(Color.black);
+    int eyeSize = 4;
+    int headX = snakeHead.x * tileSize;
+    int headY = snakeHead.y * tileSize;
+
+    if (vantocx == 1) { 
+        // Bò sang PHẢI
+        g.fillOval(headX + 16, headY + 5, eyeSize, eyeSize);
+        g.fillOval(headX + 16, headY + 15, eyeSize, eyeSize);
+    } else if (vantocx == -1) { 
+        // Bò sang TRÁI
+        g.fillOval(headX + 5, headY + 5, eyeSize, eyeSize);
+        g.fillOval(headX + 5, headY + 15, eyeSize, eyeSize);
+    } else if (vantocy == -1) { 
+        // Bò lên TRÊN
+        g.fillOval(headX + 5, headY + 5, eyeSize, eyeSize);
+        g.fillOval(headX + 15, headY + 5, eyeSize, eyeSize);
+    } else { 
+        // Bò xuống DƯỚI hoặc đứng yên
+        g.fillOval(headX + 5, headY + 16, eyeSize, eyeSize);
+        g.fillOval(headX + 15, headY + 16, eyeSize, eyeSize);
+    }
 
         //diem
         
@@ -92,17 +120,40 @@ public class snake extends JPanel implements ActionListener ,KeyListener {
 
         }
         else {
+            g.setFont(new Font("Arial",Font.PLAIN,12));
+            g.setColor(Color.blue);
             g.drawString("Score :"+String.valueOf(snakeBody.size()),tileSize-16,tileSize);
         }
+        
     }
 
 
 
-    public void placeFood(){
-        food.x=random.nextInt(boardWight/tileSize);//(0->24)
-        food.y=random.nextInt(boardHeight/tileSize);
+    public void placeFood() {
+    boolean onSnake;
+    do {
+        onSnake = false;
+        // 1. Tạo tọa độ ngẫu nhiên mới
+        food.x = random.nextInt(boardWight / tileSize);
+        food.y = random.nextInt(boardHeight / tileSize);
 
-    }
+        // 2. Kiểm tra có trùng với đầu rắn không
+        if (collision(food, snakeHead)) {
+            onSnake = true;
+            continue;
+        }
+
+        // 3. Kiểm tra có trùng với bất kỳ đốt thân nào không
+        for (int i = 0; i < snakeBody.size(); i++) {
+            Tile snakePart = snakeBody.get(i);
+            if (collision(food, snakePart)) {
+                onSnake = true;
+                break; // Tìm thấy 1 điểm trùng là dừng kiểm tra ngay, quay lại random tiếp
+            }
+        }
+    } while (onSnake); // Nếu vẫn trùng thì tiếp tục random lại
+}
+    
      public boolean collision (Tile tile1,Tile tile2){
         return tile1.x==tile2.x && tile1.y==tile2.y;
      }
