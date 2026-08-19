@@ -69,7 +69,7 @@ public class snake extends JPanel implements ActionListener, KeyListener {
         int chonNgauNhien = random.nextInt(danhSachAnh.length);
         Image anhGoc = new ImageIcon(danhSachAnh[chonNgauNhien]).getImage();
         bgImage = anhGoc.getScaledInstance(boardWight, boardHeight, Image.SCALE_SMOOTH);
-        if (chonNgauNhien == 3||chonNgauNhien == 5) {
+        if (chonNgauNhien == 3||chonNgauNhien == 5||loaiDoHoa == 2) {
             phatAmThanh("phuongtien/nhac1.wav"); 
         }
 
