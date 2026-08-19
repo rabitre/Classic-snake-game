@@ -1,8 +1,11 @@
+import java.io.File;
+import javax.sound.sampled.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.util.ArrayList;
 import java.util.Random;
 import javax.swing.*;
+
 
 public class snake extends JPanel implements ActionListener, KeyListener {
     private class Tile {
@@ -53,17 +56,28 @@ public class snake extends JPanel implements ActionListener, KeyListener {
 
         // --- ẢNH CHẾ ĐỘ 1 ---
         String[] danhSachAnh = {
-            "c:/Users/Welcome to Windows10/Pictures/1787127553743_835758234455177388_47194041779932562_0f2042e66d4d77a564e70eb171294879.jpg",
+           "phuongtien/meme1.jpg",
+            "phuongtien/meme2.jpg",
+            "phuongtien/meme3.jpg",
+            "phuongtien/kd1.jpg",
+            "phuongtien/meme4.jpg",
+            "phuongtien/kd2.jpg",
+            "phuongtien/meme5.jpg",
+            "phuongtien/meme6.jpg",
+            "phuongtien/meme7.jpg",
         };
         int chonNgauNhien = random.nextInt(danhSachAnh.length);
         Image anhGoc = new ImageIcon(danhSachAnh[chonNgauNhien]).getImage();
         bgImage = anhGoc.getScaledInstance(boardWight, boardHeight, Image.SCALE_SMOOTH);
+        if (chonNgauNhien == 3||chonNgauNhien == 5) {
+            phatAmThanh("phuongtien/nhac1.wav"); 
+        }
 
         // --- ẢNH CHẾ ĐỘ 2 ---
-        Image anhNen2 = new ImageIcon("c:\\Users\\Welcome to Windows10\\Pictures\\1787128643798_835758234455177388_47194041779932562_dc34fe40916853cdb3989c2fbb896402.jpg").getImage();
+        Image anhNen2 = new ImageIcon("phuongtien/nen.jpg").getImage();
         bgImage2 = anhNen2.getScaledInstance(boardWight, boardHeight, Image.SCALE_SMOOTH);
 
-        Image anhHoaTiet = new ImageIcon("c:\\Users\\Welcome to Windows10\\Pictures\\1787128643798_835758234455177388_47194041779932562_dc34fe40916853cdb3989c2fbb896402.jpg").getImage();
+        Image anhHoaTiet = new ImageIcon("phuongtien/nen.jpg").getImage();
         textureImage = anhHoaTiet.getScaledInstance(boardWight, boardHeight, Image.SCALE_SMOOTH);
 
         placeFood();
@@ -215,6 +229,19 @@ public class snake extends JPanel implements ActionListener, KeyListener {
     public boolean collision(Tile tile1, Tile tile2) {
         return tile1.x == tile2.x && tile1.y == tile2.y;
     }
+    public void phatAmThanh(String duongDanFile) {
+    try {
+        File fileAmThanh = new File(duongDanFile);
+        if (fileAmThanh.exists()) {
+            AudioInputStream audioInput = AudioSystem.getAudioInputStream(fileAmThanh);
+            Clip clip = AudioSystem.getClip();
+            clip.open(audioInput);
+            clip.start(); 
+        }
+    } catch (Exception e) {
+        System.out.println("Lỗi âm thanh: " + e.getMessage());
+    }
+}
 
     public void move() {
         if (collision(snakeHead, food)) {

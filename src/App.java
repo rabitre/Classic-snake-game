@@ -3,6 +3,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+
 public class App {
     public static void main(String[] args) throws Exception {
         int boardWidth = 600;
@@ -59,7 +60,7 @@ public class App {
         JLabel graphicsLabel = new JLabel("Đồ họa: ");
         graphicsLabel.setFont(new Font("Arial", Font.PLAIN, 20));
         graphicsLabel.setForeground(Color.WHITE);
-        String[] graphicsOptions = {"Mặc định", "Chế độ 1", "Chế độ 2", "Chế độ 3"};
+        String[] graphicsOptions = {"Mặc định", "Lộn xộn", "Hoa mắt"};
         JComboBox<String> graphicsBox = new JComboBox<>(graphicsOptions);
         graphicsBox.setFont(new Font("Arial", Font.PLAIN, 18));
         graphicsPanel.add(graphicsLabel);
